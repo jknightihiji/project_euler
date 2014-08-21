@@ -4,8 +4,6 @@
 
 import numpy as np
 
-ident
-
 array = [ \
 [ 8,02,22,97,38,15,00,40,00,75,04,05,07,78,52,12,50,77,91, 8],\
 [49,49,99,40,17,81,18,57,60,87,17,40,98,43,69,48,04,56,62,00],\
@@ -32,10 +30,10 @@ array = [ \
 a = np.array(array)
 
 # gives you the verticle
-i_verticle = np.array([1,0,0,0])
+i_v = np.array([1,0,0,0])
 
 #gives you horizontal
-i_horizontal = np.array([[1],[0],[0],[0]])
+i_h = np.array([[1],[0],[0],[0]])
 
 def product(l) :
     p = 1 
@@ -43,14 +41,85 @@ def product(l) :
         p *= i
     return p
 
-def non_zero(l) :
-    for i in l :
-        if 
+def horizontal(b):
+    try:
+        h = b*i_h
+        f = list(h.flatten())
+        return f[:4]
+    except :
+        print "error for %s" % repr(b)
+        return list() 
+
+
+def vertical(b):
+    try:
+        v = b*i_v
+        f = list(v.flatten())
+        return f[::4]
+    except :
+        print "error for %s" % repr(b)
+        return list()
+    
+
+def diagonal(b):
+    try :
+        d = b.diagonal()
+        f = list(d)
+        return f
+    except :
+        print "error for %s" % repr(b)
+        return list()
+
+def other_diagonal(b):
+    try :
+        d = np.fliplr(b).diagonal()
+        f = list(d)
+        return f
+    except :
+        print "error for %s" % repr(b)
+        return list()
+
+greatest_product = 0 
+
+def check_product(f,direction,i,j):
+    global greatest_product
+    
+    p = product(f)
+    print "[ %s  ] = %d   (type= %s)   (i: %d , j: %d)" %(str(f),p,direction,i,j)
+    if p > greatest_product :
+        greatest_product = p
+
 
 # TODO: finish the identiy matrix 
-for i in range(20) :
-    for j in range(20):
+for i in range(17) :
+    for j in range(17):
         b = a[i:i+4,j:j+4]
+        
+        print "b = \n%s\n"% repr(b)
+
+        #import ipdb; ipdb.set_trace()
+        # horizontal
+        p = horizontal(b) 
+        check_product(p,'h',i,j)
+
+        # verticle
+        p = vertical(b)
+        check_product(p,'v',i,j)
+
+        #diagonal
+        p = diagonal(b)
+        check_product(p,'d',i,j)
+
+        #other diagonal
+        p = other_diagonal(b)
+        check_product(p,'od',i,j)
+
+print "solution: %d"%greatest_product 
+
+
+
+
+
 
 
         
